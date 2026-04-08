@@ -4,19 +4,37 @@ import { formatCurrency } from '@/lib/format';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
-import { Plus, Target, Calendar } from 'lucide-react';
+import { Plus, Target, Calendar, Edit2, Trash2 } from 'lucide-react';
 import { motion } from 'motion/react';
+import { GoalDialog } from './GoalDialog';
+import { useState } from 'react';
 
 interface GoalsProps {
   goals: Goal[];
+  onAddGoal: (goal: Omit<Goal, 'id'>) => void;
+  onEditGoal: (id: string, goal: Partial<Goal>) => void;
+  onDeleteGoal: (id: string) => void;
 }
 
-export function Goals({ goals }: GoalsProps) {
+export function Goals({ goals, onAddGoal, onEditGoal, onDeleteGoal }: GoalsProps) {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingGoal, setEditingGoal] = useState<Goal | null>(null);
+
+  const handleEdit = (goal: Goal) => {
+    setEditingGoal(goal);
+    setIsDialogOpen(true);
+  };
+
+  const handleAddClick = () => {
+    setEditingGoal(null);
+    setIsDialogOpen(true);
+  };
+
   return (
     <div className="space-y-6 pb-24">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Metas</h1>
-        <Button size="sm" className="rounded-full gap-2">
+        <Button onClick={handleAddClick} size="sm" className="rounded-full gap-2">
           <Plus size={18} />
           Nova Meta
         </Button>
@@ -33,7 +51,7 @@ export function Goals({ goals }: GoalsProps) {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="bg-card border-none">
+              <Card className="bg-card border-none group">
                 <CardHeader className="pb-2">
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-2">
@@ -42,8 +60,18 @@ export function Goals({ goals }: GoalsProps) {
                       </div>
                       <CardTitle className="text-base">{goal.title}</CardTitle>
                     </div>
-                    <div className="text-right">
-                      <div className="text-sm font-bold">{progress.toFixed(0)}%</div>
+                    <div className="flex items-center gap-2">
+                      <div className="text-right">
+                        <div className="text-sm font-bold">{progress.toFixed(0)}%</div>
+                      </div>
+                      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEdit(goal)}>
+                          <Edit2 size={14} />
+                        </Button>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => onDeleteGoal(goal.id)}>
+                          <Trash2 size={14} />
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </CardHeader>
@@ -75,9 +103,17 @@ export function Goals({ goals }: GoalsProps) {
               Defina um objetivo e nós te ajudaremos a chegar lá com economia inteligente.
             </p>
           </div>
-          <Button variant="outline" className="mt-2">Começar agora</Button>
+          <Button variant="outline" className="mt-2" onClick={handleAddClick}>Começar agora</Button>
         </CardContent>
       </Card>
+
+      <GoalDialog 
+        open={isDialogOpen} 
+        onOpenChange={setIsDialogOpen} 
+        onAdd={onAddGoal}
+        editingGoal={editingGoal}
+        onEdit={onEditGoal}
+      />
     </div>
   );
 }

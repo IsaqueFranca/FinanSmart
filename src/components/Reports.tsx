@@ -4,16 +4,18 @@ import { formatCurrency, formatDateShort } from '@/lib/format';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, Download, CheckCircle2, Loader2 } from 'lucide-react';
+import { FileText, Download, CheckCircle2, Loader2, Trash2 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
 interface ReportsProps {
   transactions: Transaction[];
   user: User;
+  reportHistory: { id: string, title: string, date: string }[];
+  onDeleteReport: (id: string) => void;
 }
 
-export function Reports({ transactions, user }: ReportsProps) {
+export function Reports({ transactions, user, reportHistory, onDeleteReport }: ReportsProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isDone, setIsDone] = useState(false);
 
@@ -148,22 +150,37 @@ export function Reports({ transactions, user }: ReportsProps) {
       <div className="space-y-3">
         <h2 className="text-sm font-semibold text-muted-foreground px-1 uppercase tracking-wider">Histórico de Relatórios</h2>
         <div className="space-y-2">
-          {[1, 2].map((i) => (
-            <div key={i} className="flex items-center justify-between p-3 bg-card rounded-xl border border-border/50">
+          {reportHistory.map((report) => (
+            <div key={report.id} className="flex items-center justify-between p-3 bg-card rounded-xl border border-border/50 group">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-muted rounded-lg">
                   <FileText size={18} className="text-muted-foreground" />
                 </div>
                 <div>
-                  <div className="text-sm font-medium">Relatório Mensal - Março 2026</div>
-                  <div className="text-[10px] text-muted-foreground">Gerado em 01/04/2026</div>
+                  <div className="text-sm font-medium">{report.title}</div>
+                  <div className="text-[10px] text-muted-foreground">Gerado em {report.date}</div>
                 </div>
               </div>
-              <Button variant="ghost" size="icon">
-                <Download size={16} />
-              </Button>
+              <div className="flex gap-1">
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <Download size={16} />
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-8 w-8 text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => onDeleteReport(report.id)}
+                >
+                  <Trash2 size={16} />
+                </Button>
+              </div>
             </div>
           ))}
+          {reportHistory.length === 0 && (
+            <div className="text-center py-8 text-muted-foreground text-sm">
+              Nenhum relatório gerado ainda.
+            </div>
+          )}
         </div>
       </div>
     </div>

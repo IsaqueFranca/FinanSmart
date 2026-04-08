@@ -11,12 +11,17 @@ import { Reports } from './components/Reports';
 import { Profile } from './components/Profile';
 import { BottomNav } from './components/BottomNav';
 import { mockTransactions, mockUser, mockGoals, mockInsights } from './data/mockData';
-import { Transaction } from './types';
+import { Transaction, Goal } from './types';
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [transactions, setTransactions] = useState<Transaction[]>(mockTransactions);
+  const [goals, setGoals] = useState<Goal[]>(mockGoals);
+  const [reportHistory, setReportHistory] = useState([
+    { id: 'r1', title: 'Relatório Mensal - Março 2026', date: '01/04/2026' },
+    { id: 'r2', title: 'Relatório Mensal - Fevereiro 2026', date: '01/03/2026' },
+  ]);
   
   // Force dark mode
   useEffect(() => {
@@ -31,16 +36,65 @@ export default function App() {
     setTransactions([transaction, ...transactions]);
   };
 
+  const handleEditTransaction = (id: string, updated: Partial<Transaction>) => {
+    setTransactions(transactions.map(t => t.id === id ? { ...t, ...updated } : t));
+  };
+
+  const handleDeleteTransaction = (id: string) => {
+    setTransactions(transactions.filter(t => t.id !== id));
+  };
+
+  const handleAddGoal = (newGoal: Omit<Goal, 'id'>) => {
+    const goal: Goal = {
+      ...newGoal,
+      id: Math.random().toString(36).substr(2, 9),
+    };
+    setGoals([...goals, goal]);
+  };
+
+  const handleEditGoal = (id: string, updated: Partial<Goal>) => {
+    setGoals(goals.map(g => g.id === id ? { ...g, ...updated } : g));
+  };
+
+  const handleDeleteGoal = (id: string) => {
+    setGoals(goals.filter(g => g.id !== id));
+  };
+
+  const handleDeleteReport = (id: string) => {
+    setReportHistory(reportHistory.filter(r => r.id !== id));
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
         return <Dashboard transactions={transactions} user={mockUser} insights={mockInsights} />;
       case 'transactions':
-        return <Transactions transactions={transactions} onAddTransaction={handleAddTransaction} />;
+        return (
+          <Transactions 
+            transactions={transactions} 
+            onAddTransaction={handleAddTransaction}
+            onEditTransaction={handleEditTransaction}
+            onDeleteTransaction={handleDeleteTransaction}
+          />
+        );
       case 'goals':
-        return <Goals goals={mockGoals} />;
+        return (
+          <Goals 
+            goals={goals} 
+            onAddGoal={handleAddGoal}
+            onEditGoal={handleEditGoal}
+            onDeleteGoal={handleDeleteGoal}
+          />
+        );
       case 'reports':
-        return <Reports transactions={transactions} user={mockUser} />;
+        return (
+          <Reports 
+            transactions={transactions} 
+            user={mockUser} 
+            reportHistory={reportHistory}
+            onDeleteReport={handleDeleteReport}
+          />
+        );
       case 'profile':
         return <Profile user={mockUser} />;
       default:
