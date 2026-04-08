@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Transaction, TransactionType, CATEGORIES } from '@/types';
 import { formatCurrency, formatDateShort } from '@/lib/format';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Card, CardContent } from './ui/card';
+import { Input } from './ui/input';
+import { Button } from './ui/button';
+import { Badge } from './ui/badge';
+import { ScrollArea } from './ui/scroll-area';
 import { Plus, Search, Filter, ArrowUpCircle, ArrowDownCircle, Edit2, Trash2 } from 'lucide-react';
 import { AddTransactionDialog } from './AddTransactionDialog';
 import { motion, AnimatePresence } from 'motion/react';

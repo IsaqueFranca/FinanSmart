@@ -1,9 +1,9 @@
 import React from 'react';
 import { User } from '@/types';
-import { Card, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
+import { Card, CardContent } from './ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Button } from './ui/button';
+import { Separator } from './ui/separator';
 import { Settings, Shield, Bell, HelpCircle, LogOut, ChevronRight, CreditCard, User as UserIcon } from 'lucide-react';
 
 interface ProfileProps {
