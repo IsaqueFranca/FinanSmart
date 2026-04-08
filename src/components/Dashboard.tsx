@@ -1,7 +1,7 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Progress } from './ui/progress';
-import { Badge } from './ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
+import { Progress } from '@/components/ui/progress.tsx';
+import { Badge } from '@/components/ui/badge.tsx';
 import { Transaction, User, Insight } from '@/types';
 import { formatCurrency } from '@/lib/format';
 import { TrendingUp, TrendingDown, Wallet, AlertCircle, Lightbulb, CheckCircle2 } from 'lucide-react';

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Goal } from '@/types';
 import { formatCurrency } from '@/lib/format';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Progress } from './ui/progress';
-import { Button } from './ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
+import { Progress } from '@/components/ui/progress.tsx';
+import { Button } from '@/components/ui/button.tsx';
 import { Plus, Target, Calendar, Edit2, Trash2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { GoalDialog } from './GoalDialog';

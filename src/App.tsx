@@ -4,12 +4,12 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Dashboard } from './components/Dashboard';
-import { Transactions } from './components/Transactions';
-import { Goals } from './components/Goals';
-import { Reports } from './components/Reports';
-import { Profile } from './components/Profile';
-import { BottomNav } from './components/BottomNav';
+import { Dashboard } from './components/Dashboard.tsx';
+import { Transactions } from './components/Transactions.tsx';
+import { Goals } from './components/Goals.tsx';
+import { Reports } from './components/Reports.tsx';
+import { Profile } from './components/Profile.tsx';
+import { BottomNav } from './components/BottomNav.tsx';
 import { mockTransactions, mockUser, mockGoals, mockInsights } from './data/mockData';
 import { Transaction, Goal } from './types';
 import { motion, AnimatePresence } from 'motion/react';
