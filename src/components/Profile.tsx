@@ -1,9 +1,9 @@
 import React from 'react';
 import { User } from '@/types';
-import { Card, CardContent } from '@/components/ui/card.tsx';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar.tsx';
-import { Button } from '@/components/ui/button.tsx';
-import { Separator } from '@/components/ui/separator.tsx';
+import { Card, CardContent } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import { Settings, Shield, Bell, HelpCircle, LogOut, ChevronRight, CreditCard, User as UserIcon } from 'lucide-react';
 
 interface ProfileProps {
